@@ -198,7 +198,7 @@
     <br/>
     <br/>
     <h4>1.3.3 Quelques Contrats</h4>
-    <p>Contrat sur :<b>Paiement</b><br/> Opération : effectuerPaiement(carteCredit : CarteCredit, montant : float) : string<br/> Cross Références : Cas d’utilisation : le processus du paiement<br/> Préconditions : Il y a une réservation valide<br/> Postconditions:
+    <p>Contrat sur :<b>Paiement</b><br/> Opération : effectuerPaiement(carteCredit : CarteCredit, montant : float) : string<br/> Cross Références : Diagramme de sequence du client : le processus du paiement<br/> Préconditions : Il y a une réservation valide<br/>        Postconditions:
     </p>
     <ul>
         <li>Une instance du paiement p a été cree (creation d’instance)</li>
@@ -208,35 +208,28 @@
         <li>De même manier, la ou les sièges sont associées avec une ou des sections et les sections sont reliées avec un avion et finalement avion est lié avec un vol (les association formé)</li>
         <li>Etat du siège est change à CONFIRMEE</li>
     </ul>
-    <p>Contrat sur :<b>.</b><br/> Opération : .<br/> Cross Références : .<br/> Préconditions : .<br/> Postconditions:
+    <p>Contrat sur :<b>Changement une réservation confirmée</b><br/> Opération : changementRéservation(numéroRéservation)<br/> Cross Références : diagramme de sequence du client<br/> Préconditions : Il y a une réservation confirmée par rapport le numéro
+        de réservation fourni <br/>et la demande s'est fait au moins 24 avant le départ.<br/> Postconditions:
     </p>
     <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li>La vieille réservation est annulée</li>
+        <li>Le siège par rapport la vieille réservation est maintenant LIBRE.</li>
+        <li>Un numéro pour la nouvelle réservation est attribué</li>
+        <li>Une instance pour la nouvelle réservation a été créée</li>
     </ul>
-    <p>Contrat sur :<b>.</b><br/> Opération : .<br/> Cross Références : .<br/> Préconditions : .<br/> Postconditions:
+    <p>Contrat sur :<b>Modification d'un vol</b><br/> Opération : modifieVol(idVol, date, prix)<br/> Cross Références : diagramme de séquence de l'admin<br/> Préconditions : Le vol existe<br/> Postconditions:
     </p>
     <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li>Les nouvoux données sont enregistrés dans la base de données.</li>
+        <li>Id de vol ne change pas</li>
     </ul>
-    <p>Contrat sur :<b>.</b><br/> Opération : .<br/> Cross Références : .<br/> Préconditions : .<br/> Postconditions:
+    <p>Contrat sur :<b>Annulation une réservation confirmée</b><br/> Opération : annulerRéservation(numéroRéservation)<br/> Cross Références : .<br/> Préconditions : La réservation avec l'état confirmée existe et la demande s'est fait au moins 24h avant
+        le départ<br/> Postconditions:
     </p>
     <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li>L'entité de la réservation est enlévée.</li>
+        <li>Le remboursement avec 10% de perte est fait.</li>
+        <li>L'état du siège est rendu LIBRE</li>
     </ul>
     <br/>
     <br/>
@@ -276,15 +269,14 @@
         <> self.aéroportDéstination</p>
     <h4>3.4.2 La partie alphabétique de l'ID d'un vol est unique à chaque compagnie et la partie numérique est unique à chaque vol au sein de la même compagnie.</h4>
     <p>Contexte CompagnieAérienne</p>
-    <p>inv: let lesDeuxPremiersLettresDeIdVol = self.getVols.get(0).getIdVol().substring(0,1)<br/> lesChiffresDesIdVols = slef.getVols.getIdVol().substring(2, slef.getVols.getIdVol().length()-1)<br/> in <br/> CompagnieAérienne.allInstances()-> forAll(c1,
-        c2 : CompagnieAérienne | c1
-        <>c2 implies c1.lesDeuxPremiersLettresDeIdVol
-            <> c2.lesDeuxPremiersLettresDeIdVol)<br/> && self.lesChiffresDesIdVols -> forAll(n1,n2 : lesChiffresDesIdVols | n1
-                <>n2)</p>
+    <p>inv: self.descriptionVol.idVol->isUnique(self.descriptionVol.idVol.substring(0,1)) and</p>
+    <p>self.getVols()->forAll(v1,v2 self.getVols() | v1
+        <> v2 implies v1.getIdVol().substring(2,v1.getIdVol().size()-1)
+            <> v2.getIdVol().substring(2,v2.getIdVol().size()-1)</p>
     <h4>3.4.3 Tous les sièges d'une même section ont le même prix dans la même compagnie</h4>
     <p>Contexte CompagnieAeriene</p>
-    <p>inv: CompagnieAeriene.description.vol.avion.section.siege.allInstances() -> forAll(s1, s2: CompagnieAeriene.description.vol.avion.siege | s1
-        <>s1 implies s1.prix = s2.prix)</p>
+    <p>inv: CompagnieAeriene.descriptionVol.vol.avion.section.siege.reservation.allInstances() -> forAll(s1, s2: CompagnieAeriene.descriptionVol.vol.avion.section.siege.reservation | s1
+        <>s2 implies s1.montant = s2.montant)</p>
     <h4>3.4.4 Réserver ne peut se faire que pour un siège libre. Identifiez la postcondition de l'opération réserver().</h4>
     <p>Contexte Reservation::reserver(idSiege)</p>
     <p>Pre : self.siege.etatSiege= LIBRE</p>
@@ -293,7 +285,7 @@
         <> null</p>
     <br/>
     <h3>2.5 Diagramme d'état</h3>
-    <p>Le diagramme d'état en format .vpp est disponible 
+    <p>Le diagramme d'état en format .vpp est disponible
         <a href="design\ift3911_dm1_diagramme_etat_siege.vpp" download>ici</a>.</p>
     <br/>
     <img src="design\ift3911_dm1_diagramme_etats_siege.jpg" alt="image of state diag" />
