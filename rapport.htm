@@ -20,7 +20,7 @@
     <p><b>Temps mis:</b> 45 heures</p>
 
     <h2>Distribution des tâches</h2>
-    <p><b>Soumetteur:</b> Mohammad Erfanian Azmoudeh</p>
+    <p><b>Soumetteur:</b> Lygia Maestri Kimura</p>
     <table cellpadding="3px" border="1" style="text-align:left">
         <thead>
             <tr>
@@ -35,18 +35,18 @@
             </tr>
             <tr>
                 <td>Diagramme de classe d'implementation</td>
-                <td>Ensemble (50%)</td>
-                <td>Ensemble (50%)</td>
+                <td>Ensemble (55%)</td>
+                <td>Ensemble (45%)</td>
             </tr>
             <tr>
                 <td>Diagrammes de séquences</td>
-                <td>Ensemble (50%)</td>
-                <td>Ensemble (50%)</td>
+                <td>Ensemble (55%)</td>
+                <td>Ensemble (45%)</td>
             </tr>
             <tr>
                 <td>Contrats</td>
                 <td>Ensemble (45%)</td>
-                <td>Ensemble (65%)</td>
+                <td>Ensemble (55%)</td>
             </tr>
             <tr>
                 <td>Contraintes OCL</td>
@@ -56,7 +56,7 @@
             <tr>
                 <td>Diagramme d'état</td>
                 <td>Ensemble (45%)</td>
-                <td>Ensemble (65%)</td>
+                <td>Ensemble (55%)</td>
             </tr>
             <tr>
                 <td>Diagramme de paquets</td>
@@ -283,28 +283,28 @@
     <h3>2.3 Diagramme de paquets</h3>
     <br/>
     <img src="design\ift3911_dm1_diagramme_packets.jpg" alt="image of package diag" />
-    <p>Le diagramme de packdets en format .vpp est disponible
+    <p>Le diagramme de paquets en format .vpp est disponible
         <a href="design\ift3911_dm1_class_diagram_et_package.vpp" download>ici</a>.</p>
     <br/>
     <h3>2.4 Contraintes OCL</h3>
-    <h4>3.4.1 L'aéroport de départ et d'arrivée sont différents</h4>
+    <h4>2.4.1 L'aéroport de départ et d'arrivée sont différents</h4>
     <p>Context Vol</p>
     <p>inv : self.aéroportDépart
         <> self.aéroportDéstination</p>
     <br/>
-    <h4>3.4.2 La partie alphabétique de l'ID d'un vol est unique à chaque compagnie et la partie numérique est unique à chaque vol au sein de la même compagnie.</h4>
+    <h4>2.4.2 La partie alphabétique de l'ID d'un vol est unique à chaque compagnie et la partie numérique est unique à chaque vol au sein de la même compagnie.</h4>
     <p>Contexte CompagnieAérienne</p>
     <p>inv: self.descriptionVol.idVol->isUnique(self.descriptionVol.idVol.substring(0,1)) and</p>
     <p>self.getVols()->forAll(v1,v2 self.getVols() | v1
         <> v2 implies v1.getIdVol().substring(2,v1.getIdVol().size()-1)
             <> v2.getIdVol().substring(2,v2.getIdVol().size()-1)</p>
     <br/>
-    <h4>3.4.3 Tous les sièges d'une même section ont le même prix dans la même compagnie</h4>
+    <h4>2.4.3 Tous les sièges d'une même section ont le même prix dans la même compagnie</h4>
     <p>Contexte CompagnieAeriene</p>
     <p>inv: CompagnieAeriene.descriptionVol.vol.avion.section.siege.reservation.allInstances() -> forAll(s1, s2: CompagnieAeriene.descriptionVol.vol.avion.section.siege.reservation | s1
         <>s2 implies s1.montant = s2.montant)</p>
     <br/>
-    <h4>3.4.4 Réserver ne peut se faire que pour un siège libre. Identifiez la postcondition de l'opération réserver().</h4>
+    <h4>2.4.4 Réserver ne peut se faire que pour un siège libre. Identifiez la postcondition de l'opération réserver().</h4>
     <p>Contexte Reservation::reserver(idSiege)</p>
     <p>Pre : self.siege.etatSiege= LIBRE</p>
     <p>Post : self.siege.etatSiege= RESERVE</p>
